@@ -1,0 +1,20 @@
+[package]
+name        = "softcursor"
+version     = "0.1.0"
+edition     = "2021"
+description = "Software mouse cursor overlay for Kali Linux on VMware ESXi 6.x"
+homepage    = "https://noHatHacker.com"
+repository  = "https://github.com/mr1b31r0/Kali_ESXi_mouseFixer"
+license     = "MIT"
+authors     = ["NoHatHacker <noHatHacker.com>"]
+
+[[bin]]
+name = "softcursor"
+path = "src/main.rs"
+
+[dependencies]
+x11 = { version = "2.3", features = ["xlib", "xfixes"] }
+
+[profile.release]
+opt-level = 3
+strip     = true

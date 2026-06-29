@@ -1,0 +1,20 @@
+# softcursor — VMware ESXi 6.x software cursor overlay
+# Runs as a user service (needs DISPLAY) — installed via install.sh
+#
+# https://noHatHacker.com
+
+[Unit]
+Description=Software cursor overlay for VMware ESXi 6.x guests
+Documentation=https://github.com/mr1b31r0/Kali_ESXi_mouseFixer
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/softcursor
+Restart=on-failure
+RestartSec=3
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=graphical-session.target
