@@ -6,6 +6,7 @@ set -e
 BINARY="softcursor"
 TARGET_DIR="$HOME/.local/bin"
 SERVICE_DIR="$HOME/.config/systemd/user"
+AUTOSTART_DIR="$HOME/.config/autostart"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # ── Colour helpers ─────────────────────────────────────────────────────────────
@@ -61,27 +62,36 @@ if [[ ":$PATH:" != *":$TARGET_DIR:"* ]]; then
 fi
 
 # ── Install systemd user service ───────────────────────────────────────────────
+# ── Autostart .desktop (works on XFCE, GNOME, Cinnamon, KDE — most reliable) ──
+info "Installing autostart entry (~/.config/autostart)..."
+mkdir -p "$AUTOSTART_DIR"
+sed "s|%u|$HOME|g" "$REPO_DIR/softcursor.desktop" > "$AUTOSTART_DIR/softcursor.desktop"
+green "Autostart entry installed — will launch on next login automatically."
+
+# ── systemd user service (secondary, for DEs that signal graphical-session) ──
 if command -v systemctl &>/dev/null && systemctl --user status &>/dev/null 2>&1; then
     info "Installing systemd user service..."
     mkdir -p "$SERVICE_DIR"
     cp "$REPO_DIR/softcursor.service" "$SERVICE_DIR/softcursor.service"
     systemctl --user daemon-reload
-    systemctl --user enable --now softcursor.service
-    green "Service enabled and started."
-    systemctl --user status softcursor --no-pager || true
-else
-    info "systemd user session not available — starting manually instead."
-    DISPLAY="${DISPLAY:-:0}" nohup "$TARGET_DIR/$BINARY" >/dev/null 2>&1 &
-    green "softcursor started (PID $!)."
-    info "To auto-start on login add this to ~/.xsessionrc or ~/.profile:"
-    info "  DISPLAY=:0 $TARGET_DIR/$BINARY &"
+    systemctl --user enable softcursor.service 2>/dev/null || true
+    green "systemd service enabled."
 fi
+
+# ── Start now in the current session ──────────────────────────────────────────
+if pgrep -x softcursor >/dev/null 2>&1; then
+    info "softcursor already running — restarting..."
+    pkill -x softcursor 2>/dev/null || true
+    sleep 0.5
+fi
+DISPLAY="${DISPLAY:-:0}" nohup "$TARGET_DIR/$BINARY" >/dev/null 2>&1 &
+green "softcursor started now (PID $!)."
 
 echo ""
 green "Done. softcursor is running."
 echo ""
 echo "  Disable:  systemctl --user disable --now softcursor"
 echo "  Logs:     journalctl --user -u softcursor -f"
-echo "  Uninstall: rm $TARGET_DIR/$BINARY $SERVICE_DIR/softcursor.service"
+echo "  Uninstall: rm $TARGET_DIR/$BINARY $SERVICE_DIR/softcursor.service $AUTOSTART_DIR/softcursor.desktop"
 echo ""
 echo "  Built WITH CSK by NoHatHacker.com"

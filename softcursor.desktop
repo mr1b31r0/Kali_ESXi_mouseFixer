@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=softcursor
+Comment=Software cursor overlay for VMware ESXi 6.x — NoHatHacker.com
+Exec=%u/.local/bin/softcursor
+Icon=input-mouse
+Terminal=false
+Hidden=false
+X-GNOME-Autostart-enabled=true
+X-KDE-autostart-after=panel

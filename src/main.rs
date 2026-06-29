@@ -85,9 +85,20 @@ fn main() {
 }
 
 unsafe fn run() {
-    let dpy: *mut Display = xlib::XOpenDisplay(ptr::null());
+    // Try $DISPLAY first, then fall back to :0 / :1 / :2 so the service
+    // survives even when DISPLAY isn't inherited (e.g. systemd user session).
+    let dpy: *mut Display = {
+        let mut d = xlib::XOpenDisplay(ptr::null());
+        if d.is_null() {
+            for display in &[b":0\0".as_ptr(), b":1\0".as_ptr(), b":2\0".as_ptr()] {
+                d = xlib::XOpenDisplay(*display as *const i8);
+                if !d.is_null() { break; }
+            }
+        }
+        d
+    };
     if dpy.is_null() {
-        eprintln!("softcursor: cannot open X display — is DISPLAY set?");
+        eprintln!("softcursor: cannot open X display — tried $DISPLAY, :0, :1, :2");
         std::process::exit(1);
     }
 

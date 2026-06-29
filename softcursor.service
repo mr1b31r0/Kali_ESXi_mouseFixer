@@ -1,6 +1,4 @@
 # softcursor — VMware ESXi 6.x software cursor overlay
-# Runs as a user service (needs DISPLAY) — installed via install.sh
-#
 # Built WITH CSK by NoHatHacker.com
 
 [Unit]
@@ -11,10 +9,13 @@ PartOf=graphical-session.target
 
 [Service]
 Type=simple
+ExecStartPre=/bin/sh -c 'test -n "$DISPLAY" || export DISPLAY=:0'
 ExecStart=%h/.local/bin/softcursor
 Restart=on-failure
 RestartSec=3
+# Detect DISPLAY from running X server socket if not inherited
 Environment=DISPLAY=:0
 
 [Install]
 WantedBy=graphical-session.target
+WantedBy=default.target
