@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # install.sh — build and install softcursor as a user systemd service
-# https://noHatHacker.com
+# Built WITH CSK by NoHatHacker.com
 set -e
 
 BINARY="softcursor"
@@ -28,4 +28,4 @@ echo "[+] Done. softcursor is running."
 echo "    Disable anytime: systemctl --user disable --now softcursor"
 echo "    Logs:            journalctl --user -u softcursor -f"
 echo ""
-echo "    noHatHacker.com"
+echo "    Built WITH CSK by NoHatHacker.com"

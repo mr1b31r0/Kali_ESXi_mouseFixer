@@ -3,7 +3,7 @@
 **VMware ESXi 6.x SVGA doesn't render the hardware cursor on modern Kali Linux.**
 This daemon draws a software cursor on top of everything so you can actually see where your mouse is.
 
-Built with ❤️ by **[NoHatHacker](https://noHatHacker.com)**
+Built **WITH CSK** by **[NoHatHacker.com](https://noHatHacker.com)**
 
 ---
 
@@ -77,4 +77,4 @@ cargo build --release
 
 ## License
 
-MIT — https://noHatHacker.com
+MIT — Built WITH CSK by [NoHatHacker.com](https://noHatHacker.com)

@@ -5,7 +5,7 @@
 //! draws a classic arrow pointer at the real cursor position. The window is fully
 //! input-transparent (clicks/keys pass straight through to whatever is underneath).
 //!
-//! Built by CSK — https://noHatHacker.com
+//! Built WITH CSK by NoHatHacker.com
 
 use std::ffi::CString;
 use std::os::raw::{c_int, c_uint, c_ulong};

@@ -6,7 +6,7 @@ description = "Software mouse cursor overlay for Kali Linux on VMware ESXi 6.x"
 homepage    = "https://noHatHacker.com"
 repository  = "https://github.com/mr1b31r0/Kali_ESXi_mouseFixer"
 license     = "MIT"
-authors     = ["NoHatHacker <noHatHacker.com>"]
+authors     = ["NoHatHacker.com"]
 
 [[bin]]
 name = "softcursor"

@@ -1,7 +1,7 @@
 # softcursor — VMware ESXi 6.x software cursor overlay
 # Runs as a user service (needs DISPLAY) — installed via install.sh
 #
-# https://noHatHacker.com
+# Built WITH CSK by NoHatHacker.com
 
 [Unit]
 Description=Software cursor overlay for VMware ESXi 6.x guests
