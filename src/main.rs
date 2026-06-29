@@ -7,7 +7,6 @@
 //!
 //! Built WITH CSK by NoHatHacker.com
 
-use std::ffi::CString;
 use std::os::raw::{c_int, c_uint, c_ulong};
 use std::ptr;
 use std::thread;
@@ -18,13 +17,13 @@ use x11::xlib::{
     XGCValues, XSetWindowAttributes,
     XDefaultRootWindow, XDefaultScreen, XDefaultDepth,
     XBlackPixel, XWhitePixel,
-    XCreateGC, XFreeGC,
+    XCreateGC,
     XCreateWindow, XMapWindow, XMoveWindow,
-    XFlush, XQueryPointer, XSync,
-    XSetForeground, XDrawLines, XFillPolygon,
+    XFlush, XQueryPointer,
+    XSetForeground, XFillPolygon,
     XClearWindow,
     CoordModeOrigin, Complex,
-    CWBackPixel, CWBorderPixel, CWColormap, CWOverrideRedirect, CWEventMask,
+    CWBackPixel, CWBorderPixel, CWOverrideRedirect, CWEventMask,
     InputOutput, StructureNotifyMask,
 };
 use x11::xfixes::{XFixesSetWindowShapeRegion, XFixesQueryExtension};
