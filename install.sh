@@ -15,7 +15,7 @@ info()   { printf '\033[34m[*]\033[0m %s\n' "$*"; }
 
 # ── Dependency check ───────────────────────────────────────────────────────────
 MISSING_APT=()
-for pkg in libx11-dev libxfixes-dev pkg-config; do
+for pkg in libx11-dev libxfixes-dev libxext-dev pkg-config; do
     dpkg -s "$pkg" &>/dev/null || MISSING_APT+=("$pkg")
 done
 
