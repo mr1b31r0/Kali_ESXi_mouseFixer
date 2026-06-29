@@ -1,0 +1,68 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build softcursor (x86_64-linux)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install X11 dev libs
+        run: sudo apt-get install -y libx11-dev libxfixes-dev pkg-config
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Strip binary
+        run: strip target/release/softcursor
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ github.ref_name }}"
+          body: |
+            ## softcursor ${{ github.ref_name }}
+
+            Software mouse cursor overlay for Kali Linux on VMware ESXi 6.x.
+            Works on **XFCE, GNOME, Cinnamon, KDE** — any desktop running X11.
+
+            Built **WITH CSK** by [NoHatHacker.com](https://noHatHacker.com)
+
+            ---
+
+            ### Quick install (no Rust needed)
+
+            ```bash
+            # 1. Install runtime dependency
+            sudo apt install libx11-6 libxfixes3
+
+            # 2. Download binary
+            wget https://github.com/mr1b31r0/Kali_ESXi_mouseFixer/releases/download/${{ github.ref_name }}/softcursor
+            chmod +x softcursor
+
+            # 3a. Run now
+            DISPLAY=:0 ./softcursor &
+
+            # 3b. Install as user service (auto-starts with desktop)
+            mkdir -p ~/.local/bin ~/.config/systemd/user
+            mv softcursor ~/.local/bin/
+            wget -O ~/.config/systemd/user/softcursor.service \
+              https://raw.githubusercontent.com/mr1b31r0/Kali_ESXi_mouseFixer/main/softcursor.service
+            systemctl --user daemon-reload
+            systemctl --user enable --now softcursor
+            ```
+          files: target/release/softcursor
+          draft: false
+          prerelease: false
